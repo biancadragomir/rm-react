@@ -6,7 +6,7 @@ export const useHttp = (url, dependencies) => {
     const [fetchedData, setFetchedData] = useState(null);
 
     useEffect(() => {
-        console.log("Making http request...")
+        console.log("Making http request to URL: "+url)
         setIsLoading(true);
         fetch(url)
             .then(response => {
