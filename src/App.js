@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 
-import CharPicker from './components/CharPicker';
-import Character from './components/Character';
+import CharPicker from './components/characters/CharPicker';
+import Character from './components/characters/Character';
+import Team from './components/Team'
+
+import Button from 'react-bootstrap/Button';
+import Adventure from './components/adventure/Adventure';
 
 // Here we transformed the App component to be a hook-based component where useState hook is used to work as a functional component, while still managing the state at the same time.
 const App = props => {
@@ -10,13 +14,13 @@ const App = props => {
   //   selectedCharacter: 1,
   //   destroyed: false});
 
-    const [chosenSide, setChosenSide] = useState('light') // The state does not necessarily have to be an object, it can be a string, just like here. 
+  const [chosenSide, setChosenSide] = useState('light') // The state does not necessarily have to be an object, it can be a string, just like here. 
+  const [selectedCharacter, setSelectedCharacter] = useState('Rick');
+  const [destroyed, setDestroyed] = useState(false);
+  const [currentTeam, setCurrentTeam] = useState(['Rick']);
+  const [simulationOutcome, setSimulationOutcome] = useState(false);
 
-    const [selectedCharacter, setSelectedCharacter] = useState(1);
-
-    const [destroyed, setDestroyed] = useState(false);
-
-    // We can define a function inside another function by making it const
+  // We can define a function inside another function by making it const
   const sideHandler = side => {
     // In classic react you'd use this.setState({ side: side }); but since setState is now a constant (and you're not inside a class anymore), the 'this' keyword is no longer needed.
     // ...state - also saves the current attributes of the state. This state is basically what the above useState returns.
@@ -41,27 +45,56 @@ const App = props => {
     setDestroyed(true);
   };
 
-    let content = (
-      <React.Fragment>
+  const addToTeamHandler = () => {
+    setCurrentTeam(currentTeam.concat(selectedCharacter));
+  }
+
+  const simulationHandler = () => {
+    setSimulationOutcome(!simulationOutcome)
+  }
+
+  let content = (
+    <React.Fragment>
+      <body>
+        <h1>Build your own adventure</h1>
         <CharPicker
-        // Same story here: 'this' keyword is no longer needed.
+          // Same story here: 'this' keyword is no longer needed.
           side={chosenSide}
           selectedChar={selectedCharacter}
           onCharSelect={charSelectHandler}
         />
         <Character selectedChar={selectedCharacter} />
-        <button onClick={sideHandler.bind(this, 'light')}>Light Side</button>
-        <button onClick={sideHandler.bind(this, 'dark')}>Dark Side</button>
+        <Button onClick={addToTeamHandler} variant='success' size='lg'>Add to team</Button>
+        <span>&nbsp;</span>
+        <Button onClick={sideHandler.bind(this, 'light')} variant="outline-info" size="lg" active> Light Side</Button>
+        <span>&nbsp;</span>
+        <Button onClick={sideHandler.bind(this, 'dark')} variant="dark" size="lg">Dark Side</Button>
+        <span>&nbsp;</span>
         {chosenSide === 'dark' && (
-          <button onClick={destructionHandler}>DESTROY!</button>
+          <Button onClick={destructionHandler} variant="danger" size="lg">DESTROY!</Button>
         )}
-      </React.Fragment>
-    );
+        <br /><br />
+        <h2>Your team</h2>
+        <Team items={currentTeam} />
+        <br />
+        <h2>Adventure simulator</h2>
+        <Button onClick={simulationHandler} variant='success' size='lg'>Continue adventure!</Button>
+        <div class="row">
+          <div class="column">
+          <Adventure simulationOutcome={simulationOutcome}></Adventure>
+          </div>
+          <div class="column">
 
-    if (destroyed) {
-      content = <h1>Total destruction!</h1>;
-    }
-    return content;
+          </div>
+        </div>
+      </body>
+    </React.Fragment>
+  );
+
+  if (destroyed) {
+    content = <h1>Total destruction!</h1>;
   }
+  return content;
+}
 
 export default App;

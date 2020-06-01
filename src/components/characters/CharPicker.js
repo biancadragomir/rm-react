@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useHttp } from '../hooks/http';
+import React from 'react';
+import { useHttp } from '../../hooks/http';
 import './CharPicker.css';
 
 const CharPicker = props => {
@@ -19,11 +19,11 @@ const CharPicker = props => {
   // useEffect will run after the render cycle (it is called once, when the first network request
   //is made) but it also runs whenever our functional component is re-rendered, i.e., when props or state suffer changes.
 
-  const [isLoading, fetchedData] = useHttp('https://swapi.dev/api/people', []);
+  const [isLoading, fetchedData] = useHttp('http://localhost:1958/characters', []);
 
-  const selectedCharacters = fetchedData ? fetchedData.results.map((char, index) => ({
-    name: char.name,
-    id: index + 1
+  const selectedCharacters = fetchedData ? fetchedData.map((char) => ({
+    characterName: char.characterName,
+    id: char.characterName
   })) : [];
 
   // In the old approach, here you'd have needed the 'render' method. But using hooks, we simply return our jsx content here. 
@@ -43,8 +43,8 @@ const CharPicker = props => {
         className={props.side}
       >
         {selectedCharacters.map(char => (
-          <option key={char.id} value={char.id}>
-            {char.name}
+          <option key={char.characterName} value={char.characterName}>
+            {char.characterName}
           </option>
         ))}
       </select>
