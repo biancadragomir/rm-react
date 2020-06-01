@@ -4,7 +4,7 @@ function IdiomaticReactList(props) {
     const currentItems = props.items;
     const listItems = currentItems.map((item) => <li class="list-group-item">{item}</li>);
     return (
-        <ul class="list-group">
+        <ul className="list-group">
             {listItems}
         </ul>
     );

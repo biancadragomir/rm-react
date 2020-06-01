@@ -14,7 +14,7 @@ const App = props => {
   //   selectedCharacter: 1,
   //   destroyed: false});
 
-  const [chosenSide, setChosenSide] = useState('light') // The state does not necessarily have to be an object, it can be a string, just like here. 
+  const [chosenSide, setChosenSide] = useState('light')
   const [selectedCharacter, setSelectedCharacter] = useState('Rick');
   const [destroyed, setDestroyed] = useState(false);
   const [currentTeam, setCurrentTeam] = useState(['Rick']);
@@ -50,19 +50,21 @@ const App = props => {
   }
 
   const simulationHandler = () => {
-    setSimulationOutcome(!simulationOutcome)
+    setSimulationOutcome(!simulationOutcome);
   }
 
   let content = (
     <React.Fragment>
       <body>
         <h1>Build your own adventure</h1>
-        <CharPicker
-          // Same story here: 'this' keyword is no longer needed.
-          side={chosenSide}
-          selectedChar={selectedCharacter}
-          onCharSelect={charSelectHandler}
-        />
+        <span>Choose your hero: </span>
+        <row>
+          <CharPicker
+            side={chosenSide}
+            selectedChar={selectedCharacter}
+            onCharSelect={charSelectHandler}
+          />
+        </row>
         <Character selectedChar={selectedCharacter} />
         <Button onClick={addToTeamHandler} variant='success' size='lg'>Add to team</Button>
         <span>&nbsp;</span>
@@ -78,17 +80,10 @@ const App = props => {
         <Team items={currentTeam} />
         <br />
         <h2>Adventure simulator</h2>
-        <Button onClick={simulationHandler} variant='success' size='lg'>Continue adventure!</Button>
-        <div class="row">
-          <div class="column">
-          <Adventure simulationOutcome={simulationOutcome}></Adventure>
-          </div>
-          <div class="column">
-
-          </div>
-        </div>
+        <Button onClick={simulationHandler} variant='success' size='lg'>Start new adventure!</Button>
+        <Adventure simulationOutcome={simulationOutcome}></Adventure>
       </body>
-    </React.Fragment>
+    </React.Fragment >
   );
 
   if (destroyed) {

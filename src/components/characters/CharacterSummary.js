@@ -8,7 +8,7 @@ const Summary = props => {
       <h1>{props.characterName}</h1>
       <div class="row">
         <div class="column">
-          <img src={props.imageUrl} height="100" width="100" alt="rick and morty"/>
+          <img src={props.imageUrl} height="100" width="100" alt="rick and morty" />
         </div>
         <div class="column">
           <p>

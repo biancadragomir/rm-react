@@ -29,11 +29,7 @@ const CharPicker = props => {
   // In the old approach, here you'd have needed the 'render' method. But using hooks, we simply return our jsx content here. 
   let content = <p>Loading characters...</p>;
 
-  if (
-    !isLoading &&
-    selectedCharacters &&
-    selectedCharacters.length > 0
-  ) {
+  if (!isLoading && selectedCharacters && selectedCharacters.length > 0) {
     content = (
       <select
         // In the classic approach, we'd use this.props.onCharSelect. But since we are in a functional component, we have the possibility to use props directly since we receive props
