@@ -8,7 +8,6 @@ const Character = props => {
   let loadedCharacter = null;
 
   const [isLoading, fetchedData] = useHttp('http://localhost:1958/characters/' + props.selectedChar, [props.selectedChar])
-  console.log('http://localhost:1958/characters/' + props.selectedChar)
   if (fetchedData) {
     loadedCharacter = {
       characterName: fetchedData.characterName,
