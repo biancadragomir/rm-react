@@ -1,19 +1,21 @@
 import React from 'react';
 import { useState } from 'react';
-import { usePrevious } from '../../hooks/previousProps';
-import { useEffect } from 'react';
+import { usePrevious } from '../../hooks/usePrevious';
 
 import Button from 'react-bootstrap/Button';
 
 import AdventureSimulator from './AdventureSimulator';
-import { useHttp } from '../../hooks/http';
+import { useHttp } from '../../hooks/useHttp';
+import {useDocumentTitle } from '../../hooks/useDocumentTitle';
 
 const Adventure = props => {
 
   let simulationOutcome = null;
 
-  const [currentLifeLevel, setCurrentLifeLevel] = useState(1000);
+  const [currentLifeLevel, setCurrentLifeLevel] = useState(150);
   const previousLifeLevel = usePrevious(currentLifeLevel);
+
+  useDocumentTitle(currentLifeLevel + " life remaining");
 
   const clickHandler = () => {
     let newLifeLevel = currentLifeLevel - simulationOutcome.damage;
@@ -21,7 +23,7 @@ const Adventure = props => {
     setCurrentLifeLevel(newLifeLevel);
   }
 
-  const [isLoading, fetchedData] = useHttp('http://localhost:1958/simulateAdventure/', [props.simulationOutcome]);
+  const [isLoading, fetchedData] = useHttp('simulateAdventure', [props.simulationOutcome]);
   if (fetchedData) {
     simulationOutcome = {
       status: fetchedData.status,
@@ -32,7 +34,7 @@ const Adventure = props => {
 
   let content = <p>Loading simulation...</p>;
 
-  if (props.simulationOutcome == false) content = <p>No simulation yet.</p>;
+  if (props.simulationOutcome === false) content = <p>No simulation yet.</p>;
 
   if (!isLoading && simulationOutcome) {
     content = (
@@ -46,11 +48,15 @@ const Adventure = props => {
         />
         <Button
           onClick={clickHandler}
-          disabled={simulationOutcome.status === 'Failed' || currentLifeLevel == 0}
-          variant={fetchedData.status === 'Failed' || currentLifeLevel == 0 ? "danger" : "info"}>Advance</Button>
+          disabled={simulationOutcome.status === 'Failed' || currentLifeLevel === 0}
+          variant={fetchedData.status === 'Failed' || currentLifeLevel === 0 ? "danger" : "info"}>Advance</Button>
         {
-          currentLifeLevel < 0 && (
-            <h4>Ya DEAD.</h4>)}
+          currentLifeLevel <= 0 && (
+            <div>
+              <br></br>
+              <h4>Ya DEAD.</h4>
+            </div>
+          )}
       </div>
     );
   } else if (!isLoading && !simulationOutcome) {

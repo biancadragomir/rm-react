@@ -8,8 +8,8 @@ export const usePrevious = value => {
     // Store current value in ref
     useEffect(() => {
         ref.current = value;
-    }, [value]); // Only re-run if val  ue changes
+    }, [value]); // Only re-run if value changes
 
     // Return previous value (happens before update in useEffect above)
-    return ref.current;
+    return ref.current; 
 }

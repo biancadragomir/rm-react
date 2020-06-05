@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
+import { apiUrl } from '../core/api'
 
-export const useHttp = (url, dependencies) => {
+export const useHttp = (route, dependencies) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [fetchedData, setFetchedData] = useState(null);
 
+    const completeUrl = apiUrl + route;
+
     useEffect(() => {
-        console.log("Making http request to URL: " + url)
+        console.log("Making http request to URL: " + completeUrl)
         setIsLoading(true);
-        fetch(url)
+        fetch(completeUrl)
             .then(response => {
                 if (!response.ok) {
                     setIsLoading(false);

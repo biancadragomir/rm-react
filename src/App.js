@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 
-import CharPicker from './components/characters/CharPicker';
-import Character from './components/characters/Character';
-import Team from './components/Team'
-
+import CharPicker from './components/character-picker/CharPicker';
+import Character from './components/character/Character';
+import Team from './components/team/Team'
 import Button from 'react-bootstrap/Button';
 import Adventure from './components/adventure/Adventure';
+import { useDocumentTitle } from './hooks/useDocumentTitle';
 
 // Here we transformed the App component to be a hook-based component where useState hook is used to work as a functional component, while still managing the state at the same time.
 const App = props => {
-  // State = the current state; setState = a function that allows us to override the current state, s.t. state is updated
-  // const [state, setState] = useState({
-  //   selectedCharacter: 1,
-  //   destroyed: false});
-
   const [chosenSide, setChosenSide] = useState('light')
   const [selectedCharacter, setSelectedCharacter] = useState('Rick');
   const [destroyed, setDestroyed] = useState(false);
@@ -22,7 +17,7 @@ const App = props => {
 
   // We can define a function inside another function by making it const
   const sideHandler = side => {
-    // In classic react you'd use this.setState({ side: side }); but since setState is now a constant (and you're not inside a class anymore), the 'this' keyword is no longer needed.
+    // In classic react we'd use this.setState({ side: side }); but since setState is now a constant (and you're not inside a class anymore), the 'this' keyword is no longer needed.
     // ...state - also saves the current attributes of the state. This state is basically what the above useState returns.
     // setState({...state, side: side });
 
@@ -37,12 +32,12 @@ const App = props => {
 
   const charSelectHandler = event => {
     const charId = event.target.value;
-    // setState({ ...state, selectedCharacter: charId });
     setSelectedCharacter(charId);
   };
 
   const destructionHandler = () => {
     setDestroyed(true);
+
   };
 
   const addToTeamHandler = () => {
@@ -52,6 +47,8 @@ const App = props => {
   const simulationHandler = () => {
     setSimulationOutcome(!simulationOutcome);
   }
+
+  useDocumentTitle("Adventure began!");
 
   let content = (
     <React.Fragment>

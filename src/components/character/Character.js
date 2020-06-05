@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Summary from './CharacterSummary';
-import { useHttp } from '../../hooks/http';
+import { useHttp } from '../../hooks/useHttp';
 
 const Character = props => {
 
   let loadedCharacter = null;
 
-  const [isLoading, fetchedData] = useHttp('http://localhost:1958/characters/' + props.selectedChar, [props.selectedChar])
+  const [isLoading, fetchedData] = useHttp('characters/' + props.selectedChar, [props.selectedChar])
   if (fetchedData) {
     loadedCharacter = {
       characterName: fetchedData.characterName,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Summary.css';
+import '../common/Summary.css';
 
 const Summary = props => {
   return (
